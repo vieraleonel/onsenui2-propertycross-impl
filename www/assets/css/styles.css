@@ -3,6 +3,10 @@
     padding-right: 10px;
 }
 
+body.material .navbar-indigo {
+    background-color: #3F51B5;
+}
+
 /* Search input */
 body.ios #search-properties-container {
     background-color: white;
@@ -45,4 +49,9 @@ body.material .btn-indigo {
 
 body.ios .btn-green {
     background-color: #4cd964;
+}
+
+/* Favs */
+body.material .fav-pink {
+    background-color: #E91E63;
 }
