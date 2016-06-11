@@ -1,0 +1,48 @@
+/* Navbar */
+.navigation-bar .right {
+    padding-right: 10px;
+}
+
+/* Search input */
+body.ios #search-properties-container {
+    background-color: white;
+    border-top: 1px solid #d2cece;
+    border-bottom: 1px solid #d2cece;
+}
+
+#search-properties-container {
+    margin: 15px 0 15px 0;
+}
+
+#search-properties-container ons-input {
+    width:100%
+}
+
+body.ios #search-properties-container input {
+    height: 50px;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+
+/* Buttons */
+body.material .btn-indigo {
+    background-color: #3F51B5;
+}
+
+body.ios .btn-green {
+    background-color: #4cd964;
+}

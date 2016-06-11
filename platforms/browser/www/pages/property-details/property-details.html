@@ -1,0 +1,41 @@
+<ons-page ng-controller="PropertyDetailsPageController as vm">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">Property Details</div>
+        <div class="right" ng-if="ons.platform.isIOS()">
+            <ons-toolbar-button>
+                <ons-icon icon="fa-star-o"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-row>
+        <ons-col width="5%"></ons-col>
+        <ons-col width="90%">
+            <h1>{{ ::vm.property.price_formatted }}</h1>
+            <p>{{ ::vm.property.title }}</p>
+        </ons-col>
+    </ons-row>
+
+    <ons-row>
+        <ons-col width="5%"></ons-col>
+        <ons-col width="90%">
+            <img style="width: 100%" ng-src="{{ ::vm.property.img_url }}">
+        </ons-col>
+    </ons-row>
+
+    <ons-row>
+        <ons-col width="5%"></ons-col>
+        <ons-col width="95%">
+            <p>{{ ::vm.property.bedroom_number }} beeds, {{ ::vm.property.bathroom_number }} bathrooms</p>
+            <p>{{ ::vm.property.summary }}</p>
+        </ons-col>
+    </ons-row>
+
+    <ons-fab position="bottom right" ripple ng-if="ons.platform.isAndroid()">
+        <ons-icon icon="fa-star-o"></ons-icon>
+    </ons-fab>
+
+</ons-page>
