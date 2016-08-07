@@ -3,8 +3,8 @@
     padding-right: 10px;
 }
 
-body.material .navbar-indigo {
-    background-color: #3F51B5;
+body.material .navbar-blue {
+    background-color: #387ef5;
 }
 
 /* Search input */
@@ -43,8 +43,8 @@ body.ios #search-properties-container input {
 }
 
 /* Buttons */
-body.material .btn-indigo {
-    background-color: #3F51B5;
+body.material .btn-blue {
+    background-color: #387ef5;
 }
 
 body.ios .btn-green {
@@ -54,4 +54,13 @@ body.ios .btn-green {
 /* Favs */
 body.material .fav-pink {
     background-color: #E91E63;
+}
+
+/* Errors */
+body.ios .text-error {
+    color: #ff3b30;
+}
+
+body.material .text-error {
+    color: #d50000;
 }
