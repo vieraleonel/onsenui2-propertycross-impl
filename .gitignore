@@ -43,3 +43,9 @@ node_modules
 ### VSCODE ###
 jsconfig.json
 .vscode
+
+### NPM scripts ###
+www/assets/angular
+www/assets/localforage
+www/assets/onsenui
+www/assets/lodash
