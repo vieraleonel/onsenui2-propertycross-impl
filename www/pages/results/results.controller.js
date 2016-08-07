@@ -58,8 +58,9 @@
                     toggleLoadMore();
                     vm.queryData = PropertiesService.getLastQueryResults();
                 }).
-                catch(function(){
+                catch(function(error){
                    toggleLoadMore();
+                   alert(error.message)
                 });
         }
     }
