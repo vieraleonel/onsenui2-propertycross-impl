@@ -1,11 +1,14 @@
 (function(app){
     'use strict';
 
+    // add controller to app
     app.controller('ResultsPageController', ResultsPageController);
 
-    ResultsPageController.$inject = ['PropertiesService']
+    // controller dependencies
+    ResultsPageController.$inject = ['PropertiesService', '$window']
 
-    function ResultsPageController(PropertiesService) {
+    // controller
+    function ResultsPageController(PropertiesService, $window) {
         var vm = this;
         
         // properties
@@ -16,9 +19,13 @@
         vm.getMoreProperties = getMoreProperties;
         vm.goToPropertyDetails = goToPropertyDetails;
 
+        // startup method
         activate();
         ////////////////////////
         
+        /**
+         * startup method. Get queried results and sets Load More state
+         */
         function activate() {
             vm.queryData = PropertiesService.getLastQueryResults();
 
@@ -29,6 +36,9 @@
             };
         }
 
+        /**
+         * Toggle Load More state
+         */
         function toggleLoadMore() {
             if (vm.loadMore.loading) {
                 vm.loadMore.loading = false;
@@ -41,15 +51,23 @@
             vm.loadMore.canLoad = vm.queryData.page < vm.queryData.pages;
         }
 
+        /**
+         * Navigates to Property details page with selected property
+         * 
+         * @param  Object property
+         */
         function goToPropertyDetails(property) {
             // navi is global from onsen-navigator
-            navi.pushPage('pages/property-details/property-details.html', {
+            $window.navi.pushPage('pages/property-details/property-details.html', {
                 data: {
                     selectedProperty: property
                 }
             });
         }
 
+        /**
+         * get more results from last query
+         */
         function getMoreProperties() {
             toggleLoadMore();
 

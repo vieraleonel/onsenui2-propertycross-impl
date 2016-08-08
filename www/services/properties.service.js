@@ -1,15 +1,22 @@
+/**
+ * Service for accesing Property API
+ */
 (function(app){
     'use strict';
 
+    // add service to app
     app.factory('PropertiesService', PropertiesService);
 
+    // dependencies of service
     PropertiesService.$inject = ['$log', '$http', '$window', '$q', 'PROPERTY_API']
 
+    // service
     function PropertiesService($log, $http, $window, $q, PROPERTY_API) {
         var lastQueryResults  = {};
         var searchTerm        = '';
         var searchCoordinates = null;
 
+        // public
         var service = {
             searchByTerm: searchByTerm,
             searchByPosition: searchByPosition,
@@ -20,16 +27,35 @@
         return service;
         //////////////////////////////
         
+        /**
+         * Compose url for term based searches
+         * 
+         * @param  string term Term to search
+         * @param  int page Page number
+         * @return string URL
+         */
         function composeTermUrl(term, page) {
-            return 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=search_listings&encoding=json&listing_type=buy&page=' + 
-                    page + '&place_name=' + term;
+            return PROPERTY_API.baseUrl + '&page=' + page + '&place_name=' + term;
         }
 
+        /**
+         * Compose url for location based searches
+         * 
+         * @param  Object coordinates Geolocation object
+         * @param  int page Page number
+         * @return string URL
+         */
         function composePositionUrl(coordinates, page) {
-            return 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=search_listings&encoding=json&listing_type=buy&page=' +
-                    page + '&centre_point=' + coordinates.lat + ',' + coordinates.lng;
+            return PROPERTY_API.baseUrl + '&page=' + page + 
+                '&centre_point=' + coordinates.lat + ',' + coordinates.lng;
         }
 
+        /**
+         * Perform a search of properties by term
+         * 
+         * @param  string term
+         * @return Promise
+         */
         function searchByTerm(term) {
             searchCoordinates = null;
             searchTerm        = term;
@@ -47,12 +73,20 @@
             }
         }
 
+        /**
+         * Perform search by Position
+         * 
+         * @return Promise
+         */
         function searchByPosition() {
             searchCoordinates = null;
             searchTerm        = '';
 
             return $q(function(resolve, reject){
-                $window.navigator.geolocation.getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true, timeout: 5000 });
+
+                // try to get current position
+                $window.navigator.geolocation
+                    .getCurrentPosition(positionSuccess, positionError, { enableHighAccuracy: true, timeout: 5000 });
 
                 function positionSuccess(position) {
                     searchCoordinates = {
@@ -88,12 +122,20 @@
             });
         }
 
+        /**
+         * Process successfull response from API
+         * 
+         * @param  Object data API response
+         * @return Object Procesed results
+         */
         function processResponse(data) {
 
             switch (data.response.application_response_code) {
+                // OK codes
                 case '100':
                 case '101':
                 case '110':
+                    // Some properties found
                     if (data.response.listings.length) {
                         lastQueryResults = {
                             status: PROPERTY_API.status.SUCCESS,
@@ -107,6 +149,7 @@
                             properties: data.response.listings
                         };
                     }
+                    // No properties found
                     else {
                         lastQueryResults = {
                             status: PROPERTY_API.status.ERROR, 
@@ -117,6 +160,7 @@
                     }
 
                     break;
+                // Ambiguous codes
                 case '200':
                 case '202':
                     lastQueryResults = {
@@ -127,6 +171,7 @@
                         locations: data.response.locations
                     };
                     break;
+                // everything else is considered as error
                 default:
                     lastQueryResults = processFailedResponse(null, PROPERTY_API.error.messages.GENERIC_ERROR);
             } // switch
@@ -134,6 +179,13 @@
             return lastQueryResults;
         }
 
+        /**
+         * Process erroneous responses from API
+         * 
+         * @param  string error Browser description of error
+         * @param  string msg Message shown to user
+         * @return Object
+         */
         function processFailedResponse(error, msg) {
             $log.error(error);
 
@@ -147,19 +199,26 @@
             return lastQueryResults;
         }
 
+        /**
+         * Use last query parameter to get more results by asking for next page.
+         * 
+         * @return Promise
+         */
         function loadMore() {
+
+            // Term based search
             if (lastQueryResults.searchCoordinates === null) {
                 return $http.get(composeTermUrl(lastQueryResults.searchTerm, lastQueryResults.page +1))
                     .then(loadMoreComplete)
                     .catch(loadMoreFailed);    
             }
+            // Location based search
             else {
                 return $http.get(composePositionUrl(lastQueryResults.searchCoordinates, lastQueryResults.page +1))
                     .then(loadMoreComplete)
                     .catch(loadMoreFailed);
             }
             
-
             function loadMoreComplete(response) {
                 lastQueryResults.page++;
                 lastQueryResults.properties = lastQueryResults.properties.concat(response.data.response.listings);
@@ -173,6 +232,11 @@
             }
         }
 
+        /**
+         * Return last results obtained
+         * 
+         * @return Object
+         */
         function getLastQueryResults() {
             return lastQueryResults;
         }

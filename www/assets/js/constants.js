@@ -6,7 +6,7 @@
     'use strict';
 
     app.constant('PROPERTY_API', {
-        baseUrl: '',
+        baseUrl: 'http://api.nestoria.co.uk/api?country=uk&pretty=0&action=search_listings&encoding=json&listing_type=buy',
         error: {
             messages: {
                 ZERO_PROPERTIES: 'There were no properties found for the given location.',

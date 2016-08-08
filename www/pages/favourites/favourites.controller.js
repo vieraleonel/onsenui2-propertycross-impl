@@ -1,11 +1,14 @@
 (function(app){
     'use strict';
 
+    // add controller to app
     app.controller('FavouritesPageController', FavouritesPageController);
 
-    FavouritesPageController.$inject = ['FavouritesService']
+    // controller dependencies
+    FavouritesPageController.$inject = ['FavouritesService', '$timeout', '$window']
 
-    function FavouritesPageController(FavouritesService) {
+    // controller
+    function FavouritesPageController(FavouritesService, $timeout, $window) {
         var vm = this;
         
         // properties
@@ -14,24 +17,33 @@
         // methods
         vm.goToPropertyDetails = goToPropertyDetails;
 
+        // startup method
         activate();
         ////////////////////////
         
+        /**
+         * Startup method. Get favourites from service
+         */
         function activate() {
-            console.log('activate');
             FavouritesService.getAll()
                 .then(function(faves) {
-                    vm.faves = faves;
+                    // workarount to force $digest cycle
+                    $timeout(function() { vm.faves = faves;}, 0)
                 });
         }
 
+        /**
+         * Navigates to property details page with selected favourite
+         * 
+         * @param  Object property Selected property
+         */
         function goToPropertyDetails(property) {
             // navi is global from onsen-navigator
-            navi.pushPage('pages/property-details/property-details.html', {
+            $window.navi.pushPage('pages/property-details/property-details.html', {
                 data: {
                     selectedProperty: property
                 }
             });
         }
-    }
+    } // function FavouritesPageController
 })(window.app);
