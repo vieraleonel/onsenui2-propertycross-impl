@@ -19,7 +19,7 @@
     "angular": "^1.5.6",
     "localforage": "^1.4.2",
     "lodash": "^4.13.1",
-    "onsenui": "^2.0.0-rc.10"
+    "onsenui": "^2.0.3"
   },
   "devDependencies": {
     "copyfiles": "^1.0.0",
