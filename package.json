@@ -1,6 +1,6 @@
 {
   "name": "propertycross-onsenui2-implementation",
-  "version": "4.0.2",
+  "version": "1.0.0",
   "description": "An implementation of PropertyCross using onsen ui 2",
   "repository": {
     "type": "git",
@@ -9,11 +9,13 @@
   "author": "Viera Leonel",
   "license": "SEE LICENCE IN LICENSE",
   "keywords": [
-    "ecosystem:phonegap",
-    "ecosystem:cordova",
-    "cordova:template",
-    "phonegap:template"
-  ],
+    "cordova",
+    "propertycross",
+    "phonegap",
+    "framework7",
+    "mobile",
+    "hybrid"
+],
   "homepage": "https://github.com/vieraleonel/onsenui2-propertycross-impl",
   "dependencies": {
     "angular": "^1.5.6",
